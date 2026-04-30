@@ -22,10 +22,10 @@ to version and publish both packages **independently**.
 
 For a library with a public API:
 
-| Bump    | Use for                                                                  |
-|---------|--------------------------------------------------------------------------|
-| `patch` | Bug fix; no public-API or runtime-contract change.                       |
-| `minor` | New export, new optional prop, expanded `engines` / `peerDependencies`.  |
+| Bump    | Use for                                                                                                  |
+|---------|----------------------------------------------------------------------------------------------------------|
+| `patch` | Bug fix; no public-API or runtime-contract change.                                                       |
+| `minor` | New export, new optional prop, expanded `engines` / `peerDependencies`.                                  |
 | `major` | Removed/renamed export or subpath, changed prop signatures, dropped Node major, narrowed peer-dep range. |
 
 When in doubt, prefer the higher bump.

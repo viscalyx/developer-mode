@@ -37,16 +37,16 @@ the full layout rules.
 
 ## Commands (run from the repo root)
 
-| Task               | Command            |
-|--------------------|--------------------|
-| Install            | `npm install`      |
-| Build all packages | `npm run build`    |
+| Task               | Command              |
+|--------------------|----------------------|
+| Install            | `npm install`        |
+| Build all packages | `npm run build`      |
 | Type-check         | `npm run type-check` |
-| Run tests          | `npm run test`     |
-| Lint               | `npm run lint`     |
-| Markdown lint      | `npm run lint:md`  |
-| Composite check    | `npm run check`    |
-| Add a changeset    | `npx changeset`    |
+| Run tests          | `npm run test`       |
+| Lint               | `npm run lint`       |
+| Markdown lint      | `npm run lint:md`    |
+| Composite check    | `npm run check`      |
+| Add a changeset    | `npx changeset`      |
 
 ## General rules
 

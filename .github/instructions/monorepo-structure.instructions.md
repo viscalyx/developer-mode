@@ -69,13 +69,13 @@ This repository is an **npm workspaces** monorepo for the
 All commands run from the repo root. Per-package commands are
 available via `npm run <script> --workspace @viscalyx/<name>`.
 
-| Task               | Command            |
-|--------------------|--------------------|
-| Install            | `npm install`      |
+| Task               | Command              |
+|--------------------|----------------------|
+| Install            | `npm install`        |
 | Type-check         | `npm run type-check` |
-| Build all packages | `npm run build`    |
-| Run all tests      | `npm run test`     |
-| Lint               | `npm run lint`     |
-| Format             | `npm run format`   |
-| Markdown lint      | `npm run lint:md`  |
-| Composite check    | `npm run check`    |
+| Build all packages | `npm run build`      |
+| Run all tests      | `npm run test`       |
+| Lint               | `npm run lint`       |
+| Format             | `npm run format`     |
+| Markdown lint      | `npm run lint:md`    |
+| Composite check    | `npm run check`      |
