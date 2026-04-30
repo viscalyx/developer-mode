@@ -1,5 +1,15 @@
 # @viscalyx/developer-mode-core
 
+## 0.2.1
+
+### Patch Changes
+
+- 363410f: Internal: release pipeline now publishes to npm via GitHub OIDC (npm
+  Trusted Publishing) instead of an `NPM_TOKEN` automation token. No
+  runtime or API changes; this release exists to validate the new
+  publish path end to end and is the first version of each package
+  published with provenance attestations.
+
 ## 0.2.0
 
 ### Minor Changes
