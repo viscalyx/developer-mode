@@ -83,7 +83,10 @@ If a CJS consumer ever appears and the demand is real:
 ## Required secrets and npm authentication
 
 The `release.yml` workflow uses **npm Trusted Publishing** (OIDC)
-to authenticate to npmjs.com — no tokens are used.
+to authenticate to npmjs.com — no long-lived npm tokens are used.
+A `GITHUB_TOKEN` is still required, but only for `changesets/action`
+to open the Version Packages PR and to create GitHub Releases /
+tags; it is not used to publish to npm.
 
 What is required:
 
