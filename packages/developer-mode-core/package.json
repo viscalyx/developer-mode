@@ -1,6 +1,6 @@
 {
   "name": "@viscalyx/developer-mode-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Framework-agnostic developer mode utilities and marker helpers",
   "license": "MIT",
   "author": "Viscalyx",
