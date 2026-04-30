@@ -54,8 +54,10 @@ When in doubt, prefer the higher bump.
 - **Never delete a changeset under `.changeset/*.md`** to "skip" a
   release. Open a follow-up PR with a `patch` changeset that
   documents the correction instead.
-- **Never publish manually** (`npm publish` from a workstation).
-  All publishes go through `release.yml`.
+- **Never publish manually** from a workstation, except for the
+  first publish of a brand-new npm package as described in
+  "Initial publish" below. All later publishes go through
+  `release.yml`.
 
 ## ESM-only policy
 
@@ -105,8 +107,25 @@ error.
 
 ## Initial publish
 
-The first release of each package is `0.1.0`. The Version
-Packages PR will reflect that bump from the placeholder version
-once the first changeset lands. Both packages have already been
-published once manually, so subsequent releases flow through the
-workflow above using Trusted Publishing.
+A brand-new package name must exist on npm before npm Trusted
+Publishing can be enabled for it. The first publish is therefore
+the only allowed manual publish from a workstation.
+
+Use npm for this repo; do not use `pnpm`. The release script already
+runs the correct Changesets publish command:
+`npm run release` (`npm run build && changeset publish`).
+
+Bootstrap a new package like this:
+
+1. Merge the Version Packages PR so package versions and changelogs
+   are prepared by Changesets.
+2. Pull the latest `main`.
+3. Run `npm ci`.
+4. Run `npm login`.
+5. Run `npm run release`.
+6. On npmjs.com, configure a Trusted Publisher for the newly
+   published package:
+   - Repository: `viscalyx/developer-mode`
+   - Workflow filename: `release.yml`
+   - Job / environment: the `release` job, no environment.
+7. Use the GitHub Actions release workflow for every later publish.

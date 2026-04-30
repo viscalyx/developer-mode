@@ -74,6 +74,11 @@ Runs on every push to `main` and orchestrates Changesets.
   must reference this repository and the workflow filename
   `release.yml`; if the file is renamed, update the npm side to
   match.
+- A package must exist on npm before Trusted Publishing can be
+  enabled for it. The first publish of a brand-new package is the
+  only documented manual bootstrap exception; see
+  [`RELEASING.md`](../RELEASING.md#initial-publish) for the exact
+  npm commands.
 
 See [`RELEASING.md`](../RELEASING.md) for the full author and
 maintainer flow.
