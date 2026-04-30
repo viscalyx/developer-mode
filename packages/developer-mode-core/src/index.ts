@@ -46,10 +46,10 @@ export interface DeveloperModeBounds {
 }
 
 export interface DeveloperModeDescriptor {
-  context?: string
+  context?: string | undefined
   name: string
   priority: number
-  value?: string
+  value?: string | undefined
 }
 
 export interface DeveloperModeTarget extends DeveloperModeDescriptor {

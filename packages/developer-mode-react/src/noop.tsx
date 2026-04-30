@@ -14,6 +14,6 @@ export interface DeveloperModeProviderProps {
 
 export default function DeveloperModeProvider({
   children,
-}: DeveloperModeProviderProps) {
+}: DeveloperModeProviderProps): ReactNode {
   return <>{children}</>
 }

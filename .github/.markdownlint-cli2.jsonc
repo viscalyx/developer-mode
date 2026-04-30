@@ -1,0 +1,15 @@
+{
+  // AI-only instruction, prompt, and skill files under `.github/` are
+  // exempt from the user-facing markdown style rules in
+  // `.github/instructions/markdown.instructions.md` (whose `applyTo`
+  // glob does not cover this directory). They use long, dense lines on
+  // purpose so the underlying agent receives full context, and many of
+  // them intentionally do not start with a top-level heading
+  // (e.g. an italic preamble or a YAML frontmatter block followed by
+  // an `##` heading), so disable both MD013 (line length) and MD041
+  // (first-line-heading) for everything under `.github/**`.
+  "config": {
+    "MD013": false,
+    "MD041": false
+  }
+}

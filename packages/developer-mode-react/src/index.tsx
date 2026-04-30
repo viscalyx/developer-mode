@@ -61,7 +61,7 @@ export default function DeveloperModeProvider({
   children,
   labels,
   navigationKey,
-}: DeveloperModeProviderProps) {
+}: DeveloperModeProviderProps): ReactNode {
   const [mounted, setMounted] = useState(false)
   const [enabled, setEnabled] = useState(false)
   const [hoveredTarget, setHoveredTarget] =

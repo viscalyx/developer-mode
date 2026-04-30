@@ -45,5 +45,11 @@
     "tsdown": "^0.7.0",
     "typescript": "^5.7.0",
     "vitest": "^2.1.9"
+  },
+  "//overrides": {
+    "rolldown": "Pinned to 1.0.0-beta.27 because tsdown@0.7.5 (used to build both packages) imports `transformPlugin` from `rolldown/experimental`, which was renamed/removed in rolldown 1.0.0-rc.x. beta.27 is the highest 1.0.0-beta release that still exports it. Drop this override when bumping tsdown to a release whose declared rolldown range targets the rc.x line."
+  },
+  "overrides": {
+    "rolldown": "1.0.0-beta.27"
   }
 }

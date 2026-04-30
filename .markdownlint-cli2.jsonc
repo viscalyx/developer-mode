@@ -1,0 +1,21 @@
+{
+  // Top-level markdownlint config used by `npm run lint:md`.
+  // Skip generated/vendored content and apply the project's MD013 rule
+  // with line-length exemptions for tables and fenced code blocks
+  // (per `.github/instructions/markdown.instructions.md`).
+  "ignores": [
+    "node_modules/**",
+    "dist/**",
+    "**/dist/**",
+    "**/CHANGELOG.md",
+    ".changeset/*.md"
+  ],
+  "config": {
+    "default": true,
+    "MD013": {
+      "line_length": 80,
+      "code_blocks": false,
+      "tables": false
+    }
+  }
+}
