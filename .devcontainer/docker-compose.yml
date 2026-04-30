@@ -1,0 +1,48 @@
+name: developer-mode-devcontainer
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      # Mount the root folder that contains .git
+      - ..:/workspace:cached
+      # Share the host's Codex CLI auth/session state with the
+      # container so signing in once on the host is enough.
+      - type: bind
+        source: ${HOME}/.codex
+        target: /home/vscode/.codex
+        bind:
+          create_host_path: true
+      # Keep Codex runtime temp wrappers container-local.
+      - codex-tmp:/home/vscode/.codex/tmp
+    # Keep container running
+    command: sleep infinity
+    env_file:
+      - path: .env
+        required: false
+    # Proper init system for signal handling and zombie process reaping
+    init: true
+    # WARNING: This profile grants elevated privileges (SYS_ADMIN,
+    # seccomp=unconfined) and is intended only for trusted code.
+    # It must remain opt-in — do not use as the default configuration.
+    # In this single-service compose file "opt-in" effectively means
+    # "by attaching this devcontainer at all"; see .devcontainer/README.md.
+    cap_add:
+      # Allow bwrap/unshare to mount /proc inside its namespace so that
+      # sandbox-wrapped agent commands work without falling back to
+      # unsandboxed execution.
+      - SYS_ADMIN
+    security_opt:
+      # Allow nested tool sandboxes (for example Bubblewrap/unshare) without
+      # granting the whole devcontainer privileged mode.
+      - seccomp=unconfined
+      # Docker masks certain /proc paths (kcore, keys, etc.) by default.
+      # The kernel refuses to mount a new procfs in a child PID namespace
+      # when the parent proc has masked entries, which breaks bwrap
+      # --unshare-pid.  Unmasking system paths fixes this narrowly.
+      - systempaths=unconfined
+
+volumes:
+  codex-tmp:

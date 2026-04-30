@@ -1,6 +1,6 @@
 # Workflows
 
-This repo runs three GitHub Actions workflows. Each one is small
+This repo runs four GitHub Actions workflows. Each one is small
 and single-purpose. **If you add or change a workflow, update
 this file in the same PR.**
 
@@ -70,3 +70,31 @@ Runs on every push to `main` and orchestrates Changesets.
 
 See [`RELEASING.md`](../RELEASING.md) for the full author and
 maintainer flow.
+
+## `copilot-setup-steps.yml`
+
+Pre-install hook for the GitHub Copilot coding agent. When Copilot
+spins up an ephemeral runner to work on an issue or PR, it executes
+the steps defined here **before** handing control to the agent, so
+the agent starts with `node_modules/` already populated.
+
+Triggers:
+
+- `workflow_dispatch` — manual run from the Actions tab.
+- `push` and `pull_request` — only when this workflow file itself
+  changes, so edits can be validated. The other paths that should
+  re-run the setup (such as `package.json`, `package-lock.json`,
+  `.nvmrc`) are listed but commented out; opt them in by uncommenting.
+
+Steps:
+
+1. `actions/checkout@v6`.
+2. `actions/setup-node@v6` with `node-version-file: .nvmrc` and
+   `cache: npm`.
+3. `npm ci`.
+
+The job is named **exactly** `copilot-setup-steps`. Copilot only
+picks up a job with that name; renaming it silently disables the
+hook. There is intentionally no `npm run check` step — if Copilot
+pushes a commit with lint or test errors, a failing pre-step would
+block the PR-comment-driven re-runs Copilot uses to iterate on a fix.

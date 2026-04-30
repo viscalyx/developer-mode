@@ -14,6 +14,15 @@ and the matching `.github/instructions/*.md` files.
   `nvm install && nvm use` to pick the right version automatically.
 - npm 10+ (ships with Node 22).
 
+## Devcontainer (optional)
+
+A ready-made dev container is provided under `.devcontainer/`.
+Open the repo in VS Code and choose **Dev Containers: Reopen in
+Container** to get a preconfigured environment with the right
+Node version, Biome, markdownlint, Vitest, and Codex CLI sandbox
+support. See [`.devcontainer/README.md`](./.devcontainer/README.md)
+for the elevated-privileges note before attaching it.
+
 ## Setup
 
 ```bash
