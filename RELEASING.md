@@ -54,8 +54,10 @@ When in doubt, prefer the higher bump.
 - **Never delete a changeset under `.changeset/*.md`** to "skip" a
   release. Open a follow-up PR with a `patch` changeset that
   documents the correction instead.
-- **Never publish manually** (`npm publish` from a workstation).
-  All publishes go through `release.yml`.
+- **Never publish manually** from a workstation, except for the
+  first publish of a brand-new npm package as described in
+  "Initial publish" below. All later publishes go through
+  `release.yml`.
 
 ## ESM-only policy
 
@@ -78,20 +80,55 @@ If a CJS consumer ever appears and the demand is real:
 3. Update this section of `RELEASING.md` so future contributors
    know the policy changed.
 
-## Required secrets
+## Required secrets and npm authentication
 
-The `release.yml` workflow expects two repository secrets:
+The `release.yml` workflow uses **npm Trusted Publishing** (OIDC)
+to authenticate to npmjs.com — no long-lived npm tokens are used.
+A `GITHUB_TOKEN` is still required, but only for `changesets/action`
+to open the Version Packages PR and to create GitHub Releases /
+tags; it is not used to publish to npm.
 
-- `GITHUB_TOKEN` — provided automatically by Actions.
-- `NPM_TOKEN` — an automation token from npmjs.com with
-  publish rights to the `@viscalyx` scope. Stored as a repository
-  secret with no environment scoping.
+What is required:
+
+- `GITHUB_TOKEN` — provided automatically by Actions and consumed
+  by `changesets/action` to open the Version Packages PR and to
+  create GitHub Releases / tags.
+- The workflow-level `id-token: write` permission (already set in
+  `release.yml`) so GitHub can mint the OIDC token that npm
+  exchanges for short-lived publish credentials.
+- A **Trusted Publisher** configured on npmjs.com for each
+  published package (`@viscalyx/developer-mode-core` and
+  `@viscalyx/developer-mode-react`), pointing at:
+  - Repository: `viscalyx/developer-mode`
+  - Workflow filename: `release.yml`
+  - Job / environment: the `release` job, no environment.
+
+If the workflow file is ever renamed, the Trusted Publisher
+configuration on npmjs.com must be updated to match the new
+filename or the publish step will fail with an authorization
+error.
 
 ## Initial publish
 
-The first release of each package is `0.1.0`. The Version
-Packages PR will reflect that bump from the placeholder version
-once the first changeset lands. Until both packages are published
-at least once, **do not** merge the Version Packages PR before
-`NPM_TOKEN` is configured — the publish step will fail and leave
-the tags inconsistent with npm.
+A brand-new package name must exist on npm before npm Trusted
+Publishing can be enabled for it. The first publish is therefore
+the only allowed manual publish from a workstation.
+
+Use npm for this repo; do not use `pnpm`. The release script already
+runs the correct Changesets publish command:
+`npm run release` (`npm run build && changeset publish`).
+
+Bootstrap a new package like this:
+
+1. Merge the Version Packages PR so package versions and changelogs
+   are prepared by Changesets.
+2. Pull the latest `main`.
+3. Run `npm ci`.
+4. Run `npm login`.
+5. Run `npm run release`.
+6. On npmjs.com, configure a Trusted Publisher for the newly
+   published package:
+   - Repository: `viscalyx/developer-mode`
+   - Workflow filename: `release.yml`
+   - Job / environment: the `release` job, no environment.
+7. Use the GitHub Actions release workflow for every later publish.

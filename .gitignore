@@ -27,3 +27,6 @@ Thumbs.db
 
 # Changeset cache
 .changeset/.cache
+.codex
+
+devcontainer-lock.json

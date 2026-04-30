@@ -62,11 +62,23 @@ Runs on every push to `main` and orchestrates Changesets.
      newly bumped packages to npm and creates GitHub Releases /
      tags.
 
-### Required secrets
+### Required secrets and npm authentication
 
-- `GITHUB_TOKEN` — provided automatically by Actions.
-- `NPM_TOKEN` — automation token from npmjs.com with publish
-  rights to the `@viscalyx` scope. Stored as a repository secret.
+- `GITHUB_TOKEN` — provided automatically by Actions; used by
+  `changesets/action` for the Version Packages PR and GitHub
+  Releases.
+- **No `NPM_TOKEN`.** Publishing to npm uses **npm Trusted
+  Publishing** (OIDC), enabled by the workflow-level
+  `id-token: write` permission plus a Trusted Publisher
+  configured on npmjs.com for each package. The Trusted Publisher
+  must reference this repository and the workflow filename
+  `release.yml`; if the file is renamed, update the npm side to
+  match.
+- A package must exist on npm before Trusted Publishing can be
+  enabled for it. The first publish of a brand-new package is the
+  only documented manual bootstrap exception; see
+  [`RELEASING.md`](../RELEASING.md#initial-publish) for the exact
+  npm commands.
 
 See [`RELEASING.md`](../RELEASING.md) for the full author and
 maintainer flow.
