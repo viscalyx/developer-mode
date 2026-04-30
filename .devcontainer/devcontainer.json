@@ -97,11 +97,16 @@
         },
 
         // TypeScript settings
-        "js/ts.preferences.quoteStyle": "single",
-        "js/ts.preferences.importModuleSpecifier": "relative",
-        "js/ts.updateImportsOnFileMove.enabled": "always",
-        "js/ts.suggest.autoImports": true,
-        "js/ts.preferences.includePackageJsonAutoImports": "auto",
+        "javascript.preferences.quoteStyle": "single",
+        "typescript.preferences.quoteStyle": "single",
+        "javascript.preferences.importModuleSpecifier": "relative",
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "javascript.updateImportsOnFileMove.enabled": "always",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "javascript.suggest.autoImports": true,
+        "typescript.suggest.autoImports": true,
+        "javascript.preferences.includePackageJsonAutoImports": "auto",
+        "typescript.preferences.includePackageJsonAutoImports": "auto",
 
         // Spell checker settings
         "cSpell.enabled": true,
