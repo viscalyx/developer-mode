@@ -78,20 +78,35 @@ If a CJS consumer ever appears and the demand is real:
 3. Update this section of `RELEASING.md` so future contributors
    know the policy changed.
 
-## Required secrets
+## Required secrets and npm authentication
 
-The `release.yml` workflow expects two repository secrets:
+The `release.yml` workflow uses **npm Trusted Publishing** (OIDC)
+to authenticate to npmjs.com — no tokens are used.
 
-- `GITHUB_TOKEN` — provided automatically by Actions.
-- `NPM_TOKEN` — an automation token from npmjs.com with
-  publish rights to the `@viscalyx` scope. Stored as a repository
-  secret with no environment scoping.
+What is required:
+
+- `GITHUB_TOKEN` — provided automatically by Actions and consumed
+  by `changesets/action` to open the Version Packages PR and to
+  create GitHub Releases / tags.
+- The workflow-level `id-token: write` permission (already set in
+  `release.yml`) so GitHub can mint the OIDC token that npm
+  exchanges for short-lived publish credentials.
+- A **Trusted Publisher** configured on npmjs.com for each
+  published package (`@viscalyx/developer-mode-core` and
+  `@viscalyx/developer-mode-react`), pointing at:
+  - Repository: `viscalyx/developer-mode`
+  - Workflow filename: `release.yml`
+  - Job / environment: the `release` job, no environment.
+
+If the workflow file is ever renamed, the Trusted Publisher
+configuration on npmjs.com must be updated to match the new
+filename or the publish step will fail with an authorization
+error.
 
 ## Initial publish
 
 The first release of each package is `0.1.0`. The Version
 Packages PR will reflect that bump from the placeholder version
-once the first changeset lands. Until both packages are published
-at least once, **do not** merge the Version Packages PR before
-`NPM_TOKEN` is configured — the publish step will fail and leave
-the tags inconsistent with npm.
+once the first changeset lands. Both packages have already been
+published once manually, so subsequent releases flow through the
+workflow above using Trusted Publishing.
