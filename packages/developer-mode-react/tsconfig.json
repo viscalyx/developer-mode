@@ -5,8 +5,8 @@
     "outDir": "dist",
     "composite": true,
     "tsBuildInfoFile": "./.tsbuildinfo",
-    "noEmit": true
+    "emitDeclarationOnly": true
   },
   "references": [{ "path": "../developer-mode-core" }],
-  "include": ["src/**/*", "tests/**/*", "tsdown.config.ts"]
+  "include": ["src/**/*"]
 }

@@ -8,9 +8,12 @@ CLI, which needs a Bubblewrap-capable sandbox.
 
 - Ubuntu 24.04 base with `git`, `curl`, `wget`, `sudo`, `zsh`,
   `build-essential`, `python3`, `bubblewrap`, and `ripgrep`.
-- Node pinned to the major version in `.nvmrc` via the
-  `ghcr.io/devcontainers/features/node:1` feature, plus `nvm`
-  so you can switch versions inside the container.
+- Node pinned to a fixed major version (`"version": "24"`) via the
+  `ghcr.io/devcontainers/features/node:1` feature in
+  `devcontainer.json`. The pin is intentionally hard-coded there
+  rather than read from `.nvmrc`, so update both files together
+  when bumping Node. `nvm` is also installed inside the container
+  if you want to switch versions manually.
 - GitHub CLI, oh-my-zsh, and the editor extensions used by this
   repo (Biome, markdownlint, Vitest, spell-checker, Copilot Chat,
   ChatGPT, mermaid).
