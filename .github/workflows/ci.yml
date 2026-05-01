@@ -48,6 +48,34 @@ jobs:
       - name: Test
         run: npm run test
 
+  safelist-check:
+    name: Safelist drift guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build React package
+        run: npm run build --workspace @viscalyx/developer-mode-react
+
+      - name: Run safelist drift-guard test
+        # Re-runs the dedicated drift-guard test in isolation so a
+        # safelist failure surfaces as its own CI signal, separate
+        # from unrelated test churn. See
+        # docs/safelist.md for what the safelist artifact is and
+        # .github/instructions/overlay-safelist.instructions.md for
+        # the rules it enforces.
+        run: npx vitest run packages/developer-mode-react/tests/safelist.test.ts
+
   changeset:
     name: Verify changeset present
     runs-on: ubuntu-latest
