@@ -37,13 +37,13 @@ Run on every code change to a local branch. Source of truth for which paths warr
 
 7. Summary rules: present tense, consumer-facing, observable behavior, no PR numbers, no commit hashes, no internal jargon.
 8. Never edit `CHANGELOG.md` or any package `version` field.
-9. Final verify (mandatory, runs even when no changeset was created or updated): `npx changeset status`. Surface a non-zero exit; do not swallow it.
+9. Final verify (mandatory, runs even when no changeset was created or updated): `npx changeset status --since=origin/main`. Surface a non-zero exit; do not swallow it.
 
 ## Output
 
 - `No changeset needed` with the excluded paths that justify it, or
 - `Created .changeset/<slug>.md` / `Updated .changeset/<slug>.md` with a diff preview,
-- followed by the `npx changeset status` result.
+- followed by the `npx changeset status --since=origin/main` result.
 
 ## Missing Context Rule
 
