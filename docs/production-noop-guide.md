@@ -481,7 +481,7 @@ strategy:
 
 | Concern | Strategy A (`/noop` alias) | Strategy B (local stub) |
 | --- | --- | --- |
-| Install-time deps | Required at build | Required at build |
+| Install-time deps | Required | Required |
 | Build-time deps | **Required** | Not required |
 | Production install (post-prune) | Build fails | Build OK |
 | Runtime bundle size (off) | Zero overlay code | Zero overlay code |
