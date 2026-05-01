@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create or Modify Changeset for Diff"
+  short_description: "Sync a changeset with the local branch diff"
+  default_prompt: "Use $create-modify-changeset-for-diff to inspect the local branch diff vs origin/main, decide whether a changeset is warranted, create or update one accordingly, and end with npx changeset status."
