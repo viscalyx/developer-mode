@@ -190,6 +190,58 @@ In this repository:
 See [Developer Mode Overlay](../../docs/developer-mode-overlay.md) for the
 repo-specific build wiring and maintenance rules.
 
+## Tailwind v4 Safelist
+
+Tailwind v4 ignores `node_modules` during automatic source detection,
+so the overlay's hard-coded utility classes (e.g. `bg-white/92`,
+`tracking-[0.18em]`, `text-[11px]`) are not generated unless the
+consumer opts them in. This package ships two artifacts so you do not
+have to hand-curate a local safelist.
+
+### Recommended: import `safelist.css`
+
+```css
+/* your Tailwind v4 entry CSS */
+@import "tailwindcss";
+@import "@viscalyx/developer-mode-react/safelist.css";
+```
+
+`safelist.css` is generated at build time from
+[`src/safelist.ts`](./src/safelist.ts) and contains one
+`@source inline(...)` declaration per overlay class string. The file
+is build-time only — it has no JavaScript surface, no runtime cost,
+and is fully optional. The `./noop` entry does not need it.
+
+### Advanced: `@source` the JS module
+
+For Tailwind configs, JIT plugins, or CSS-in-JS layers that prefer a
+JS source-of-truth, the same constants are published as a TypeScript
+subpath:
+
+```css
+@source "../node_modules/@viscalyx/developer-mode-react/dist/safelist.js";
+```
+
+```ts
+import { DEVELOPER_MODE_OVERLAY_CLASSES } from
+  '@viscalyx/developer-mode-react/safelist'
+```
+
+The named per-region constants (`OVERLAY_BADGE_CLASS`,
+`OVERLAY_CHIP_CLASS`, `TOAST_SUCCESS_TONE_CLASS`, …) are also
+exported for consumers who want to reference an individual region.
+
+### Versioning
+
+The safelist is part of the package's public API. Adding a class is a
+**minor** bump; removing or renaming a constant is a **major** bump.
+Consumers pinning a major can rely on every documented constant
+remaining available.
+
+See [`docs/safelist.md`](../../docs/safelist.md) for how the
+artifact is generated, the full downstream consumption guide, and the
+fallback for consumers who cannot `@import` from `node_modules`.
+
 ## Using With @viscalyx/developer-mode-core
 
 These packages are designed to be used together:

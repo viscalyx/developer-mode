@@ -16,6 +16,15 @@ import {
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
+import {
+  OVERLAY_BADGE_CLASS,
+  OVERLAY_CHIP_CLASS,
+  OVERLAY_HOVER_OUTLINE_CLASS,
+  OVERLAY_ROOT_CLASS,
+  TOAST_CONTAINER_CLASS,
+  TOAST_ERROR_TONE_CLASS,
+  TOAST_SUCCESS_TONE_CLASS,
+} from './safelist'
 
 export interface DeveloperModeLabels {
   badge: string
@@ -258,13 +267,13 @@ export default function DeveloperModeProvider({
         (enabled || toast) &&
         createPortal(
           <div
-            className="pointer-events-none fixed inset-0 z-[100]"
+            className={OVERLAY_ROOT_CLASS}
             data-developer-mode-overlay-root="true"
           >
             {hoveredTarget ? (
               <div
                 aria-hidden="true"
-                className="fixed rounded-lg border-2 border-primary-500/80 bg-primary-500/8 shadow-[0_0_0_1px_rgba(59,130,246,0.18)]"
+                className={OVERLAY_HOVER_OUTLINE_CLASS}
                 style={{
                   height: hoveredTarget.bounds.height,
                   left: hoveredTarget.bounds.left,
@@ -276,7 +285,7 @@ export default function DeveloperModeProvider({
 
             {enabled ? (
               <div
-                className="pointer-events-none fixed right-4 top-20 rounded-full border border-primary-300/70 bg-white/92 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary-700 shadow-sm backdrop-blur-sm dark:border-primary-700/60 dark:bg-secondary-900/92 dark:text-primary-300"
+                className={OVERLAY_BADGE_CLASS}
                 data-testid="developer-mode-badge"
               >
                 {labels.badge}
@@ -286,7 +295,7 @@ export default function DeveloperModeProvider({
             {enabled && hoveredTarget ? (
               <button
                 aria-label={hoveredTarget.payload}
-                className="pointer-events-auto fixed max-w-64 truncate rounded-full border border-primary-300/80 bg-white/96 px-2.5 py-1 text-[11px] font-medium text-primary-900 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.65)] backdrop-blur-sm transition hover:-translate-y-px hover:z-10 hover:border-primary-500 hover:bg-primary-50 focus-visible:outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-primary-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-primary-700/70 dark:bg-secondary-900/96 dark:text-primary-200 dark:hover:bg-secondary-800"
+                className={OVERLAY_CHIP_CLASS}
                 data-developer-mode-overlay-chip="true"
                 data-developer-mode-overlay-label={hoveredTarget.label}
                 onClick={() => void handleCopy(hoveredTarget)}
@@ -302,10 +311,10 @@ export default function DeveloperModeProvider({
 
             {toast ? (
               <div
-                className={`pointer-events-none fixed bottom-4 right-4 max-w-md rounded-2xl border px-4 py-3 text-sm shadow-lg backdrop-blur-sm ${
+                className={`${TOAST_CONTAINER_CLASS} ${
                   toast.tone === 'success'
-                    ? 'border-emerald-300/80 bg-emerald-50/95 text-emerald-900 dark:border-emerald-700/60 dark:bg-emerald-950/85 dark:text-emerald-100'
-                    : 'border-red-300/80 bg-red-50/95 text-red-900 dark:border-red-700/60 dark:bg-red-950/85 dark:text-red-100'
+                    ? TOAST_SUCCESS_TONE_CLASS
+                    : TOAST_ERROR_TONE_CLASS
                 }`}
                 data-developer-mode-toast="true"
               >

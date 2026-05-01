@@ -23,6 +23,11 @@
       "types": "./dist/noop.d.ts",
       "import": "./dist/noop.js"
     },
+    "./safelist": {
+      "types": "./dist/safelist.d.ts",
+      "import": "./dist/safelist.js"
+    },
+    "./safelist.css": "./dist/safelist.css",
     "./package.json": "./package.json"
   },
   "scripts": {
