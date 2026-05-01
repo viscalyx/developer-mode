@@ -30,7 +30,7 @@
     "purge:install": "rimraf node_modules && npm cache clean --force && npm install && rimraf package-lock.json && npm install"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.13",
+    "@biomejs/biome": "^2.4.14",
     "@changesets/cli": "^2.31.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
