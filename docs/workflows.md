@@ -24,6 +24,23 @@ The full local quality bar, in this order:
 Fails fast on the first non-zero step. Mirrors `npm run check`
 locally.
 
+### `safelist-check` job
+
+Builds `@viscalyx/developer-mode-react` and then runs the dedicated
+drift-guard test in
+`packages/developer-mode-react/tests/safelist.test.ts` in isolation.
+
+The drift-guard fails if `src/index.tsx` contains any inline Tailwind
+class string literal (every overlay class MUST come from
+`src/safelist.ts`) or if the generated `dist/safelist.css` is missing
+an `@source inline(...)` declaration for any safelist entry.
+
+Running this in its own job surfaces safelist regressions as a
+distinct CI signal, separate from unrelated test churn. See
+[`docs/safelist.md`](./safelist.md) for what the artifact is and
+[`overlay-safelist.instructions.md`](../.github/instructions/overlay-safelist.instructions.md)
+for the authoring rules.
+
 ### `changeset` job
 
 Pull-request-only. Runs `npx changeset status --since=origin/main`

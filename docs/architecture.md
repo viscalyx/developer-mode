@@ -83,3 +83,19 @@ The two packages version **independently** via Changesets
 (`fixed: []`, `linked: []` in `.changeset/config.json`). A change
 that touches only the React package does not bump the core, and
 vice versa.
+
+## Tailwind safelist artifact
+
+`@viscalyx/developer-mode-react` publishes its overlay's Tailwind v4
+class list as a first-class artifact via two subpaths:
+
+- `./safelist` — the JS/TS source of truth
+  (`DEVELOPER_MODE_OVERLAY_CLASSES` plus per-region constants).
+- `./safelist.css` — a generated CSS file with one
+  `@source inline("…")` declaration per entry.
+
+The overlay JSX in `src/index.tsx` consumes the same constants, so the
+shipped JS bundle and both safelist artifacts cannot drift. See
+[`safelist.md`](./safelist.md) for the consumer guide and
+[`production-noop-guide.md`](./production-noop-guide.md) for how the
+artifact composes with the noop strategies above.

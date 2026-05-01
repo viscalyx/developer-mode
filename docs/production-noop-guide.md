@@ -301,9 +301,43 @@ including arbitrary-value classes such as `bg-white/92`,
 classes are never emitted by Tailwind, and the badge/chip/toast render
 unstyled.
 
-Pick one of two options.
+Three options, in order of preference. The first is recommended for new
+integrations; the other two are kept for completeness.
 
-### Option 1 — `@source` the package's `dist/`
+### Option 1 — import the upstream `safelist.css` (recommended)
+
+Starting in `@viscalyx/developer-mode-react@0.2.0`, the package ships a
+generated `safelist.css` containing one Tailwind v4 `@source inline(...)`
+declaration per overlay class string. Import it once from your Tailwind
+v4 entry CSS:
+
+```css
+/* src/styles/globals.css */
+@import "tailwindcss";
+@import "@viscalyx/developer-mode-react/safelist.css";
+```
+
+Why this is safe for noop production builds:
+
+- It is a CSS file consumed at CSS-build time. There is no JavaScript
+  runtime surface and nothing for the bundler to pull into the client.
+- It is fully optional. The `./noop` entry does not need it; you can
+  alias the package to `./noop` (Strategy A) or to a first-party stub
+  (Strategy B) without touching this `@import`.
+- The file is generated from
+  [`packages/developer-mode-react/src/safelist.ts`](../packages/developer-mode-react/src/safelist.ts)
+  during the package build, so the JS bundle and the safelist artifact
+  cannot drift.
+
+If you also want a JS source-of-truth (e.g. for a Tailwind config
+generator), import the constants directly from
+`@viscalyx/developer-mode-react/safelist`. See [`docs/safelist.md`](./safelist.md)
+for the full downstream guide and verification steps.
+
+### Option 2 — `@source` the package's `dist/`
+
+Useful when you cannot upgrade to a version that ships `safelist.css`,
+or when you want Tailwind to scan everything the package ships:
 
 ```css
 /* src/styles/globals.css */
@@ -312,10 +346,11 @@ Pick one of two options.
 @source "../../node_modules/@viscalyx/developer-mode-react/dist";
 ```
 
-Simple, but couples your CSS build to the package being installed at build
-time. Pair this with **Strategy A** if you do not need post-prune builds.
+Simple, but couples your CSS build to the package being installed at
+build time. Pair this with **Strategy A** if you do not need post-prune
+builds.
 
-### Option 2 — first-party safelist file (recommended)
+### Option 3 — first-party safelist file (fallback)
 
 Maintain a tiny safelist file in your own source tree that lists the literal
 class strings used by the overlay. `@source` that file. The CSS build is
@@ -358,8 +393,8 @@ export const DEVELOPER_MODE_OVERLAY_CLASSES = [
 ```
 
 The class strings above are accurate for `@viscalyx/developer-mode-react`
-at the time of writing (v0.1.x). Re-check them against the package's
-`dist/index.js` when you upgrade.
+at the time of writing. Prefer Option 1 above so the safelist is
+fetched from the same package version as the runtime overlay.
 
 ### Drift-guard test (recommended)
 
@@ -473,7 +508,7 @@ strategy:
    server, press `Mod+Alt+Shift+H`, and confirm the "Developer Mode" pill
    appears top-right with its rounded border, white background, and
    uppercase letter spacing. If it appears unstyled, your Tailwind safelist
-   is missing classes — re-check Option 1 vs Option 2 above.
+   is missing classes — re-check Options 1, 2, and 3 above.
 5. **With developer mode disabled, the keyboard shortcut is a no-op** and
    no overlay-related code appears in the network tab.
 
@@ -491,18 +526,10 @@ strategy:
 
 ## Future work
 
-The Tailwind safelist is the only piece of this guide that consumers must
-maintain themselves. A natural next step would be to publish the class
-list as a consumable artifact from `@viscalyx/developer-mode-react`,
-either as:
-
-- A subpath export shipping a `.ts` file (`@viscalyx/developer-mode-react/safelist`)
-  that consumers can `@source` directly, **or**
-- A `safelist.css` file containing `@source inline(...)` declarations,
-  consumable via `@import "@viscalyx/developer-mode-react/safelist.css"`.
-
-If you would like to see this shipped upstream, follow or +1 the tracking
-issue: <https://github.com/viscalyx/developer-mode/issues/17>.
+All three Tailwind opt-in options are documented above. Issue
+[#17](https://github.com/viscalyx/developer-mode/issues/17) tracked
+shipping the upstream `safelist.css` artifact and is resolved; consumers
+still hand-curating Option 3 should consider switching to Option 1.
 
 ## License
 
