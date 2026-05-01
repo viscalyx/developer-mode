@@ -38,10 +38,12 @@ Run on every code change to a local branch. Source of truth for which paths warr
 7. Summary rules: present tense, consumer-facing, observable behavior, no PR numbers, no commit hashes, no internal jargon.
 8. Never edit `CHANGELOG.md` or any package `version` field.
 9. Final verify (mandatory, runs even when no changeset was created or updated): `npx changeset status --since=origin/main`. Surface a non-zero exit; do not swallow it.
+10. If step 9 exits non-zero **and** every changed path was classified as Excluded in step 3 (i.e. no real changeset is warranted), the failure is the Changesets CLI flagging a touched `package.json` (or similar) that ships no consumer-visible change. Resolve it by running `npx changeset add --empty` (non-interactive). The CLI writes a file like `.changeset/<random-slug>.md` with empty `---\n---\n` frontmatter; optionally append a one-line reason as the body. Re-verify with `npx changeset status` (without `--since`); it should exit zero. Note that `npx changeset status --since=origin/main` will still error until the new empty changeset is staged or committed, because `--since` only inspects git-tracked files. Only fall back to an empty changeset when the diff is genuinely Excluded — never use it to skip a release for changes that warrant one.
 
 ## Output
 
 - `No changeset needed` with the excluded paths that justify it, or
+- `Created empty .changeset/<slug>.md` (with the excluded paths that justify it) when step 10 applied, or
 - `Created .changeset/<slug>.md` / `Updated .changeset/<slug>.md` with a diff preview,
 - followed by the `npx changeset status --since=origin/main` result.
 
