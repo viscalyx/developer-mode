@@ -388,8 +388,10 @@ const safelistSource = readFileSync(
 )
 
 const STRING_LITERAL_RE = /"((?:[^"\\]|\\.)*)"/g
+// Single non-ambiguous body class avoids the catastrophic backtracking that
+// arises when overlapping `-` repetitions are split across multiple groups.
 const TAILWIND_TOKEN_RE =
-  /^(?:[a-z][a-z0-9-]*:)*-?[a-z][a-z0-9-]*(?:-[a-z0-9.[\]/_()#-]+)*\/?[0-9]*$/i
+  /^(?:[a-z][a-z0-9-]*:)*-?[a-z][a-z0-9.[\]/_()#-]*\/?[0-9]*$/i
 
 function looksLikeTailwindClassList(value: string): boolean {
   if (!value.includes(' ')) return false
