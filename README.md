@@ -69,11 +69,16 @@ removed from your production bundle, and the developer-mode packages can
 remain `devDependencies` that are pruned in production.
 
 Tailwind v4 deliberately excludes `node_modules` from automatic source
-detection, so the overlay's utility classes must be opted in explicitly —
-either by `@source`-ing the package's `dist/` directory, or by maintaining
-a small first-party safelist file.
+detection, so the overlay's utility classes must be opted in explicitly.
+The React package ships an upstream safelist artifact for this purpose:
+add `@import "@viscalyx/developer-mode-react/safelist.css";` to your
+Tailwind v4 entry CSS and Tailwind will emit the overlay's classes.
+A JS subpath (`@viscalyx/developer-mode-react/safelist`) and a
+first-party fallback are also documented.
 
-See [`docs/production-noop-guide.md`](./docs/production-noop-guide.md) for
+See [`docs/safelist.md`](./docs/safelist.md) for the three downstream
+consumption options and how the artifact stays in sync, and
+[`docs/production-noop-guide.md`](./docs/production-noop-guide.md) for
 copy-paste-ready Next.js (Turbopack + webpack) and Vite + React examples,
 two alias-swap strategies (one that keeps the package present at build
 time, one that lets you `npm prune --omit=dev`), the literal Tailwind
@@ -99,6 +104,8 @@ workflow and [`RELEASING.md`](./RELEASING.md) for the release flow
   workflow does.
 - [`docs/production-noop-guide.md`](./docs/production-noop-guide.md) —
   production-safe noop wiring and the Tailwind v4 safelist.
+- [`docs/safelist.md`](./docs/safelist.md) — Tailwind safelist
+  artifact: how it works and how downstreams should consume it.
 
 ## License
 
