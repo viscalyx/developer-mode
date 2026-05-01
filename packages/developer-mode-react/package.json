@@ -1,6 +1,6 @@
 {
   "name": "@viscalyx/developer-mode-react",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "React 19 overlay and provider for developer mode",
   "license": "MIT",
   "author": "Viscalyx",
@@ -59,6 +59,6 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@viscalyx/developer-mode-core": "^0.2.1"
+    "@viscalyx/developer-mode-core": "^0.2.2"
   }
 }

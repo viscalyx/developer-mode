@@ -1,5 +1,15 @@
 # @viscalyx/developer-mode-core
 
+## 0.2.2
+
+### Patch Changes
+
+- bb386fb: Document the deterministic fallback ladder used by `buildDeveloperModeCopyText` so consumers can rely on the ordering when reusing copied payloads.
+- bb386fb: Include the MIT `LICENSE` file in the published tarball. Both packages
+  already listed `LICENSE` in `package.json#files` but the file itself
+  was missing from the package directory, so it was not actually shipped
+  to npm. The license terms are unchanged.
+
 ## 0.2.1
 
 ### Patch Changes
