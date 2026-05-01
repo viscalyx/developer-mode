@@ -50,10 +50,12 @@ the full layout rules.
 
 ## General rules
 
-- **Every PR that changes published files** (`packages/*/src/**` or
-  `packages/*/package.json` fields that ship) MUST include a
-  changeset. CI enforces this. See
-  `.github/instructions/release.instructions.md`.
+- **On any local branch change**, invoke the
+  `create-modify-changeset-for-diff` skill regardless of which
+  files changed. The skill decides whether a changeset is
+  warranted (or an empty one is needed) per
+  `.github/instructions/release.instructions.md`. CI enforces
+  changeset presence for changes.
 - **Never edit `CHANGELOG.md` or any package `version` field by
   hand.** Changesets owns both.
 - **Packages are ESM-only.** Do not add CJS output, `require()`
