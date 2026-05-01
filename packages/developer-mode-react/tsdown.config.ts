@@ -15,12 +15,18 @@ export default defineConfig({
   sourcemap: true,
   target: 'node22',
   treeshake: true,
-  external: [
-    'react',
-    'react-dom',
-    'react/jsx-runtime',
-    '@viscalyx/developer-mode-core',
-  ],
+  // Keep `.js`/`.d.ts` output so the `exports` map in package.json
+  // remains stable. tsdown 0.21 defaults this to `true` for
+  // `platform: 'node'`, which would emit `.mjs`/`.d.mts`.
+  fixedExtension: false,
+  deps: {
+    neverBundle: [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
+      '@viscalyx/developer-mode-core',
+    ],
+  },
   // Generate dist/safelist.css from the freshly built dist/safelist.js
   // so the JS and CSS artifacts can never disagree.
   onSuccess: async () => {

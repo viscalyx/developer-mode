@@ -11,4 +11,8 @@ export default defineConfig({
   sourcemap: true,
   target: 'node22',
   treeshake: true,
+  // Keep `.js`/`.d.ts` output so the `exports` map in package.json
+  // remains stable. tsdown 0.21 defaults this to `true` for
+  // `platform: 'node'`, which would emit `.mjs`/`.d.mts`.
+  fixedExtension: false,
 })
