@@ -147,6 +147,22 @@ The package also exports:
 - `normalizeDeveloperModeText(value)`: collapses whitespace and removes empty
   strings
 
+### Copy Text Fallback Ladder
+
+`buildDeveloperModeCopyText(...)` produces a deterministic string by picking
+the first matching format from this ladder, based on which fields are
+populated:
+
+1. `context > name: value` — when `context`, `name`, and `value` are all
+   present.
+2. `context > name` — when `context` and `name` are present but `value` is
+   not.
+3. `name: value` — when `name` and `value` are present but `context` is not.
+4. `name` — when only `name` is present.
+
+This ordering is stable across versions. Host applications can rely on it
+when reusing copied payloads in prompts, support notes, or test fixtures.
+
 ## API Overview
 
 This package intentionally exposes a small practical surface:
