@@ -53,6 +53,31 @@ export default function Layout({ children }) {
 
 For SSR or feature-flag-off builds, import the `./noop` subpath of
 either package — the API is identical and every export is a no-op.
+See [Production builds & feature-flagged off](#production-builds--feature-flagged-off)
+below for the recommended bundler-alias wiring.
+
+<!-- markdownlint-disable MD001 -->
+
+### Production builds & feature-flagged off
+
+<!-- markdownlint-enable MD001 -->
+
+The `./noop` subpath of each package is intended to be wired up via a
+**bundler alias swap**, not a runtime `import()` branch. With a single
+alias entry, the real provider, marker code, and `keydown` listener are
+removed from your production bundle, and the developer-mode packages can
+remain `devDependencies` that are pruned in production.
+
+Tailwind v4 deliberately excludes `node_modules` from automatic source
+detection, so the overlay's utility classes must be opted in explicitly —
+either by `@source`-ing the package's `dist/` directory, or by maintaining
+a small first-party safelist file.
+
+See [`docs/production-noop-guide.md`](./docs/production-noop-guide.md) for
+copy-paste-ready Next.js (Turbopack + webpack) and Vite + React examples,
+two alias-swap strategies (one that keeps the package present at build
+time, one that lets you `npm prune --omit=dev`), the literal Tailwind
+class list to safelist, and a drift-guard test sketch.
 
 ## Development
 
@@ -72,6 +97,8 @@ workflow and [`RELEASING.md`](./RELEASING.md) for the release flow
   packages relate.
 - [`docs/workflows.md`](./docs/workflows.md) — what each CI
   workflow does.
+- [`docs/production-noop-guide.md`](./docs/production-noop-guide.md) —
+  production-safe noop wiring and the Tailwind v4 safelist.
 
 ## License
 
